@@ -54,18 +54,20 @@ The Baserouting for `/users` can get changed using the `baseRouting` flag in the
 
 ## Configuration
 
-| Flag        | Default                   | Description                               |
-| ----------- | ------------------------- | ----------------------------------------- |
-| version     | 1.0.0                     | the app version                           |
-| env         | dev                       | the app environment                       |
-| port        | 8080                      | the used port                             |
-| dsn         | mongodb://localhost:27017 | the database connection string            |
-| dbName      | basic-auth                | te name of the used database              |
-| jwt         | wonderfulsecretphrase     | the jwt token secret                      |
-| cors        | http://\* https://\*      | the by cors allowed origin servers        |
-| addRoles    | guest                     | the roles (+admin)                        |
-| defaultRole | guest                     | the default role when creating a new user |
-| baseRouting | users                     | the base routing for the users endpoints  |
+| Flag           | Default                   | Description                               |
+| -------------- | ------------------------- | ----------------------------------------- |
+| version        | 1.0.0                     | the app version                           |
+| env            | dev                       | the app environment                       |
+| port           | 8080                      | the used port                             |
+| dsn            | mongodb://localhost:27017 | the database connection string            |
+| dbName         | basic-auth                | te name of the used database              |
+| jwt            | wonderfulsecretphrase     | the jwt token secret                      |
+| cors           | http://\* https://\*      | the by cors allowed origin servers        |
+| cookieName     | basic-auth                | the name of the cookie                    |
+| cookieSameSite | lax                       | the cookie same site policy               |
+| addRoles       | guest                     | the roles (+admin)                        |
+| defaultRole    | guest                     | the default role when creating a new user |
+| baseRouting    | users                     | the base routing for the users endpoints  |
 
 ## Password reset
 

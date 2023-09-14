@@ -23,7 +23,11 @@ type Config struct {
 		DSN  string
 		Name string
 	}
-	JWT []byte
+	JWT    []byte
+	Cookie struct {
+		Name     string
+		SameSite string
+	}
 }
 
 type AppConfig struct {
@@ -55,6 +59,9 @@ func Init() AppConfig {
 	flag.StringVar(&addRoles, "addRoles", "guest", "additional roles (admin always exists)")
 
 	flag.StringVar(&app.Config.BaseRouting, "baseRouting", "users", "the base routing for the users endpoints")
+
+	flag.StringVar(&app.Config.Cookie.Name, "cookieName", "basic-auth", "the name of the cookie")
+	flag.StringVar(&app.Config.Cookie.SameSite, "cookieSameSite", "lax", "the cookie same site policy")
 
 	flag.Parse()
 	app.Config.JWT = []byte(jwt)

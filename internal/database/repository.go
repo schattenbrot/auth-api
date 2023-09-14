@@ -6,6 +6,7 @@ import (
 
 	"github.com/schattenbrot/auth/internal/config"
 	"github.com/schattenbrot/auth/internal/models"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -13,7 +14,7 @@ import (
 // DatabaseRepo is the interface for all repository functions
 type DatabaseRepo interface {
 	// UserRepo
-	CreateUser(user models.User) (*string, error)
+	CreateUser(user models.User) (*primitive.ObjectID, error)
 	GetUserByEmail(email string) (*models.User, error)
 }
 
