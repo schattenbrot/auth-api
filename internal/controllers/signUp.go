@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/golang-jwt/jwt"
 	"github.com/schattenbrot/auth/internal/models"
 	"github.com/schattenbrot/auth/internal/utils"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -39,7 +38,8 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	if user != nil {
-		m.App.Logger.Println(errors.New("user already exists"))
+		err = errors.New("user already exists")
+		m.App.Logger.Println(err)
 		utils.SendError(w, err)
 		return
 	}
@@ -57,11 +57,11 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 		Email:     authUser.Email,
 		Password:  string(hashedPassword),
 		Roles:     []string{m.App.Config.Roles.Default},
+		Inactive:  utils.BoolPointer(false),
 		CreatedAt: currentTime,
 		UpdatedAt: currentTime,
 	}
 
-	// save user into database
 	userID, err := m.DB.CreateUser(*user)
 	if err != nil {
 		m.App.Logger.Println(err)
@@ -71,37 +71,14 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 	user.ID = userID
 	user.Password = ""
 
-	// create cookie
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
-		ExpiresAt: currentTime.Add(time.Hour * 24).Unix(),
-		Id:        userID.Hex(),
-		IssuedAt:  currentTime.Unix(),
-		Issuer:    user.Email,
-	})
-
-	tokenString, err := token.SignedString(m.App.Config.JWT)
+	cookie, err := utils.CreateCookie(currentTime, userID.Hex(), user.Email, m.App.Config.JWT, m.App.Config.Cookie.Name, m.App.Config.Cookie.SameSite)
 	if err != nil {
 		m.App.Logger.Println(err)
 		utils.SendError(w, err, http.StatusInternalServerError)
 		return
 	}
 
-	cookie := &http.Cookie{
-		Name:     m.App.Config.Cookie.Name,
-		Path:     "/",
-		Value:    tokenString,
-		Expires:  currentTime.Add(24 * time.Hour),
-		HttpOnly: true,
-		SameSite: http.SameSiteLaxMode,
-	}
-
-	if m.App.Config.Cookie.SameSite == "none" {
-		cookie.SameSite = http.SameSiteNoneMode
-		cookie.Secure = true
-	}
-
 	http.SetCookie(w, cookie)
 
-	// send back the user
 	utils.Send(w, http.StatusOK, user)
 }

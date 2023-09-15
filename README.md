@@ -17,7 +17,7 @@ When developing locally make sure that the mongo database is running and use (se
 - ~~GoogleAccessToken~~
 - Avatar (link)
 - Roles
-- Deactivated
+- Inactive
 - ResetPasswordToken
 - ResetPasswordExpires
 - CreatedAt
@@ -83,6 +83,7 @@ There might be routings and settings that I have missed.
 
 ### TODO
 
+- SignUp (send verification email)
 - everything ...
 - Logging to file and/or console (based on env)
 - Swagger documentation

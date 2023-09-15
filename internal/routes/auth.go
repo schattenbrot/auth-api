@@ -8,4 +8,6 @@ import (
 func authRoutes(router chi.Router) {
 	router.Get("/api-status", controllers.Repo.ApiStatus)
 	router.Post("/sign-up", controllers.Repo.SignUp)
+	router.Post("/sign-in", controllers.Repo.SignIn)
+	router.Get("/sign-out", controllers.Repo.SignOut)
 }
