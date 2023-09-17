@@ -2,6 +2,7 @@ package routes
 
 import (
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
 	"github.com/schattenbrot/auth/internal/config"
 )
@@ -20,7 +21,10 @@ func Routes(app config.AppConfig) *chi.Mux {
 		Debug:              false,
 	}))
 
+	router.Use(middleware.Logger)
+
 	router.Route("/auth", authRoutes)
+	router.Route("/"+app.Config.BaseRouting, userRoutes)
 
 	return router
 }

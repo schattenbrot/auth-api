@@ -7,12 +7,11 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func CreateCookie(currentTime time.Time, userId string, email string, jwtSecret []byte, cookieName string, cookieSameSite string) (*http.Cookie, error) {
+func CreateCookie(currentTime time.Time, userId string, jwtSecret []byte, cookieName string, cookieSameSite string) (*http.Cookie, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.StandardClaims{
 		ExpiresAt: currentTime.Add(time.Hour * 24).Unix(),
-		Id:        userId,
 		IssuedAt:  currentTime.Unix(),
-		Issuer:    email,
+		Issuer:    userId,
 	})
 
 	tokenString, err := token.SignedString(jwtSecret)

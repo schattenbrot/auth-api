@@ -25,30 +25,30 @@ When developing locally make sure that the mongo database is running and use (se
 
 ## Calls
 
-| Request | Path                           | Description             | Required Auth       | Done |
-| ------- | ------------------------------ | ----------------------- | ------------------- | ---- |
-| GET     | `/`                            | Short api explanation   | -                   | -    |
-| GET     | `/auth/api-status`             | Status of the API       | -                   | -    |
-| POST    | `/auth/sign-up`                | User register           | -                   | -    |
-| POST    | `/auth/sign-in`                | User login              | -                   | -    |
-| GET     | `/auth/sign-out`               | User logout             | -                   | -    |
-| POST    | `/auth/activate-email`         | Activate user email     | -                   | -    |
-| POST    | `/auth/reset-password`         | Resets password         | -                   | -    |
-| POST    | `/auth/reset-password/revoke`  | Revoke password request | auth/admin required | -    |
-| POST    | `/auth/reset-password/{token}` | Resets password request | -                   | -    |
-| GET     | `/users`                       | Gets user list          | auth/admin required | -    |
-| GET     | `/users/me`                    | Gets current user       | auth required       | -    |
-| DELETE  | `/users/me`                    | Deletes user            | auth me required    | -    |
-| GET     | `/users/me/avatar`             | Updates user avatar     | auth me required    | -    |
-| PATCH   | `/users/me/username`           | Updates user username   | auth me required    | -    |
-| PATCH   | `/users/me/email`              | Updates user email      | auth me required    | -    |
-| PATCH   | `/users/me/password`           | Updates user password   | auth me required    | -    |
-| PATCH   | `/users/me/avatar`             | Updates user avatar     | auth me required    | -    |
-| GET     | `/users/{id}`                  | Gets a user by ID       | based on auth/role  | -    |
-| PUT     | `/users/{id}`                  | Updates user            | auth/admin required | -    |
-| DELETE  | `/users/{id}`                  | Deletes user            | auth/admin required | -    |
-| GET     | `/users/{id}/avatar`           | Gets the user's avatar  | -                   | -    |
-| PATCH   | `/users/{id}/reactivate`       | Reactivate user         | auth/auth required  | -    |
+| Request | Path                           | Description             | Required Auth       | Done          |
+| ------- | ------------------------------ | ----------------------- | ------------------- | ------------- |
+| GET     | `/`                            | Short api explanation   | -                   | -             |
+| GET     | `/auth/api-status`             | Status of the API       | -                   | done          |
+| POST    | `/auth/sign-up`                | User register           | -                   | email missing |
+| POST    | `/auth/sign-in`                | User login              | -                   | done          |
+| GET     | `/auth/sign-out`               | User logout             | -                   | done          |
+| POST    | `/auth/activate-email`         | Activate user email     | -                   | -             |
+| POST    | `/auth/reset-password`         | Resets password         | -                   | -             |
+| POST    | `/auth/reset-password/revoke`  | Revoke password request | auth/admin required | -             |
+| POST    | `/auth/reset-password/{token}` | Resets password request | -                   | -             |
+| GET     | `/users`                       | Gets user list          | auth/admin required | done          |
+| GET     | `/users/me`                    | Gets current user       | auth required       | done          |
+| DELETE  | `/users/me`                    | Deletes user            | auth required       | done          |
+| GET     | `/users/me/avatar`             | Gets user avatar        | auth required       | -             |
+| PATCH   | `/users/me/username`           | Updates user username   | auth required       | done          |
+| PATCH   | `/users/me/email`              | Updates user email      | auth required       | -             |
+| PATCH   | `/users/me/password`           | Updates user password   | auth required       | -             |
+| PATCH   | `/users/me/avatar`             | Updates user avatar     | auth required       | -             |
+| GET     | `/users/{id}`                  | Gets a user by ID       | based on auth/role  | -             |
+| PUT     | `/users/{id}`                  | Updates user            | auth/admin required | -             |
+| DELETE  | `/users/{id}`                  | Deletes user            | auth/admin required | -             |
+| GET     | `/users/{id}/avatar`           | Gets the user's avatar  | -                   | -             |
+| PATCH   | `/users/{id}/reactivate`       | Reactivate user         | auth/auth required  | -             |
 
 The Baserouting for `/users` can get changed using the `baseRouting` flag in the settings. If `auth` is chosen for the baseRouting then `/users` turns into `/users/list`.
 
@@ -84,6 +84,7 @@ There might be routings and settings that I have missed.
 ### TODO
 
 - SignUp (send verification email)
+- Email stuff ...
 - everything ...
 - Logging to file and/or console (based on env)
 - Swagger documentation

@@ -22,5 +22,5 @@ func (m *Repository) ApiStatus(w http.ResponseWriter, r *http.Request) {
 		Version:     m.App.Version,
 	}
 
-	utils.Send(w, http.StatusOK, status)
+	utils.Send(w, m.App.Logger, http.StatusOK, status)
 }

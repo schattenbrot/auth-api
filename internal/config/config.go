@@ -30,12 +30,15 @@ type Config struct {
 	}
 }
 
+type userContextKey int
+
 type AppConfig struct {
 	Version         string
 	ServerStartTime time.Time
 	Config          Config
 	Logger          *log.Logger
 	Validator       *validator.Validate
+	UserContextKey  userContextKey
 }
 
 func Init() AppConfig {
@@ -75,6 +78,8 @@ func Init() AppConfig {
 	app.Logger = logger
 
 	app.Validator = validator.New()
+
+	app.UserContextKey = 0
 
 	return app
 }

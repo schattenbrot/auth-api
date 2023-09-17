@@ -2,19 +2,20 @@ package utils
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
 // Send is the helper function for sending back an HTTP response.
-func Send(w http.ResponseWriter, status int, data ...interface{}) error {
-	js, err := json.Marshal(data[0])
+func Send(w http.ResponseWriter, logger *log.Logger, status int, data interface{}) {
+	js, err := json.Marshal(data)
 	if err != nil {
-		return err
+		logger.Println(err)
+		SendError(w, logger, err)
+		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
 	w.Write(js)
-
-	return nil
 }

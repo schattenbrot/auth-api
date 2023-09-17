@@ -15,7 +15,11 @@ import (
 type DatabaseRepo interface {
 	// UserRepo
 	CreateUser(user models.User) (*primitive.ObjectID, error)
+	GetUsers() ([]*models.User, error)
+	GetUserById(id string) (*models.User, error)
 	GetUserByEmail(email string) (*models.User, error)
+	UpdateUserById(id string, user *models.User) (*models.User, error)
+	DeleteUserById(id string) (*models.User, error)
 }
 
 type dbRepo struct {
