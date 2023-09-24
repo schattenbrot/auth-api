@@ -8,10 +8,10 @@ import (
 	"github.com/schattenbrot/auth/internal/utils"
 )
 
-func (m *Repository) UpdateUser(w http.ResponseWriter, r *http.Request) {
+func (m *Repository) UpdateMeEmail(w http.ResponseWriter, r *http.Request) {
 	currentUser := r.Context().Value(m.App.UserContextKey).(*models.User)
 
-	var user models.UpdateMeUsernameUser
+	var user models.UpdateMeEmailUser
 	err := json.NewDecoder(r.Body).Decode(&user)
 	if err != nil {
 		utils.SendError(w, m.App.Logger, err)
@@ -19,7 +19,7 @@ func (m *Repository) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	updatedUser, err := m.DB.UpdateUserById(currentUser.ID.Hex(), &models.User{
-		Username: user.Username,
+		Email: user.Email,
 	})
 	if err != nil {
 		utils.SendError(w, m.App.Logger, err, http.StatusInternalServerError)
