@@ -28,3 +28,8 @@ type UpdateMeUsernameUser struct {
 type UpdateMeEmailUser struct {
 	Email string `json:"email" validate:"required,email"`
 }
+
+type UpdateMePasswordUser struct {
+	OldPassword string `json:"oldPassword" validate:"required"`
+	Password    string `json:"password" validate:"required"`
+}

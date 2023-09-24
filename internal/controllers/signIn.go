@@ -7,6 +7,7 @@ import (
 
 	"github.com/schattenbrot/auth/internal/models"
 	"github.com/schattenbrot/auth/internal/utils"
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (m *Repository) SignIn(w http.ResponseWriter, r *http.Request) {
@@ -25,6 +26,12 @@ func (m *Repository) SignIn(w http.ResponseWriter, r *http.Request) {
 
 	// check inactive
 	user, err := m.DB.GetUserByEmail(authUser.Email)
+	if err != nil {
+		utils.SendError(w, m.App.Logger, err)
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(authUser.Password))
 	if err != nil {
 		utils.SendError(w, m.App.Logger, err)
 		return

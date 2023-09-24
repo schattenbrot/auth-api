@@ -41,8 +41,8 @@ When developing locally make sure that the mongo database is running and use (se
 | DELETE  | `/users/me`                    | Deletes user            | auth required       | done          |
 | GET     | `/users/me/avatar`             | Gets user avatar        | auth required       | -             |
 | PATCH   | `/users/me/username`           | Updates user username   | auth required       | done          |
-| PATCH   | `/users/me/email`              | Updates user email      | auth required       | -             |
-| PATCH   | `/users/me/password`           | Updates user password   | auth required       | -             |
+| PATCH   | `/users/me/email`              | Updates user email      | auth required       | done          |
+| PATCH   | `/users/me/password`           | Updates user password   | auth required       | done          |
 | PATCH   | `/users/me/avatar`             | Updates user avatar     | auth required       | -             |
 | GET     | `/users/{id}`                  | Gets a user by ID       | based on auth/role  | -             |
 | PUT     | `/users/{id}`                  | Updates user            | auth/admin required | -             |
