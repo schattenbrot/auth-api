@@ -1,10 +1,13 @@
 package middlewares
 
 import (
+	"errors"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/schattenbrot/auth/internal/models"
 	"github.com/schattenbrot/auth/internal/utils"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func (m *Repository) ValidateAuthUser(next http.Handler) http.Handler {
@@ -60,6 +63,42 @@ func (m *Repository) ValidateUpdateMeEmail(next http.Handler) http.Handler {
 func (m *Repository) ValidateUpdateMePassword(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var user models.UpdateMePasswordUser
+		utils.MiddlewareBodyDecoder(r, &user)
+
+		err := m.App.Validator.Struct(user)
+		if err != nil {
+			utils.SendError(w, m.App.Logger, err)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+// func (m *Repository) RequiredId() func(http.Handler) http.Handler {
+func (m *Repository) RequiredId(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		value := chi.URLParam(r, "id")
+		if value == "" {
+			err := errors.New("mongoid required")
+			utils.SendError(w, m.App.Logger, err)
+			return
+		}
+
+		_, err := primitive.ObjectIDFromHex(value)
+		if err != nil {
+			err := errors.New("mongoid required")
+			utils.SendError(w, m.App.Logger, err)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (m *Repository) ValidateUpdateUser(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var user models.UpdateUserUser
 		utils.MiddlewareBodyDecoder(r, &user)
 
 		err := m.App.Validator.Struct(user)

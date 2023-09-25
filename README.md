@@ -44,11 +44,11 @@ When developing locally make sure that the mongo database is running and use (se
 | PATCH   | `/users/me/email`              | Updates user email      | auth required       | done          |
 | PATCH   | `/users/me/password`           | Updates user password   | auth required       | done          |
 | PATCH   | `/users/me/avatar`             | Updates user avatar     | auth required       | -             |
-| GET     | `/users/{id}`                  | Gets a user by ID       | based on auth/role  | -             |
-| PUT     | `/users/{id}`                  | Updates user            | auth/admin required | -             |
-| DELETE  | `/users/{id}`                  | Deletes user            | auth/admin required | -             |
-| GET     | `/users/{id}/avatar`           | Gets the user's avatar  | -                   | -             |
-| PATCH   | `/users/{id}/reactivate`       | Reactivate user         | auth/auth required  | -             |
+| GET     | `/users/{id}`                  | Gets a user by ID       | auth required       | done          |
+| PUT     | `/users/{id}`                  | Updates user            | auth/admin required | done          |
+| DELETE  | `/users/{id}`                  | Deletes user            | auth/admin required | done          |
+| GET     | `/users/{id}/avatar`           | Gets the user's avatar  | auth required       | -             |
+| GET     | `/users/{id}/reactivate`       | Reactivate user         | auth/auth required  | done          |
 
 The Baserouting for `/users` can get changed using the `baseRouting` flag in the settings. If `auth` is chosen for the baseRouting then `/users` turns into `/users/list`.
 
@@ -85,7 +85,7 @@ There might be routings and settings that I have missed.
 
 - SignUp (send verification email)
 - Email stuff ...
-- everything ...
+- Avatar stuff ...
 - Logging to file and/or console (based on env)
 - Swagger documentation
 - Tests
