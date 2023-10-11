@@ -47,7 +47,7 @@ When developing locally make sure that the mongo database is running and use (se
 | PUT     | `/users/{id}`                  | Updates user            | auth/admin required | done          |
 | DELETE  | `/users/{id}`                  | Deletes user            | auth/admin required | done          |
 | GET     | `/users/{id}/reactivate`       | Reactivate user         | auth/auth required  | done          |
-| GET     | `/users/avatar/{filename}`     | Gets the user's avatar  | auth required       | -             |
+| GET     | `/users/avatar/{filename}`     | Gets the user's avatar  | auth required       | done          |
 
 The Baserouting for `/users` can get changed using the `baseRouting` flag in the settings. If `auth` is chosen for the baseRouting then `/users` turns into `/users/list`.
 
@@ -57,6 +57,7 @@ The Baserouting for `/users` can get changed using the `baseRouting` flag in the
 | -------------- | ------------------------- | ----------------------------------------- |
 | version        | 1.0.0                     | the app version                           |
 | env            | dev                       | the app environment                       |
+| servername     | http://localhost          | the api server name                       |
 | port           | 8080                      | the used port                             |
 | dsn            | mongodb://localhost:27017 | the database connection string            |
 | dbName         | basic-auth                | te name of the used database              |
@@ -84,7 +85,6 @@ There might be routings and settings that I have missed.
 
 - SignUp (send verification email)
 - Email stuff ...
-- Avatar stuff ...
 - Logging to file and/or console (based on env)
 - Swagger documentation
 - Tests

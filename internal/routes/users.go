@@ -9,6 +9,8 @@ import (
 func userRoutes(router chi.Router) {
 	router.With(middlewares.Repo.IsAuth, middlewares.Repo.IsAdmin).Get("/", controllers.Repo.GetUsers)
 
+	router.With(middlewares.Repo.IsAuth).Get("/avatar/{filename}", controllers.Repo.GetAvatar)
+
 	router.With(middlewares.Repo.IsAuth).Route("/me", func(router chi.Router) {
 		router.Get("/", controllers.Repo.GetMe)
 		router.With(middlewares.Repo.ValidateUpdateMeUsername).Patch("/username", controllers.Repo.UpdateMeUsername)
