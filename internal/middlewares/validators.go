@@ -75,6 +75,20 @@ func (m *Repository) ValidateUpdateMePassword(next http.Handler) http.Handler {
 	})
 }
 
+func (m *Repository) ValidateUpdateMeAvatar(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		defer r.Body.Close()
+		r.ParseForm()
+		_, _, err := r.FormFile("file")
+		if err != nil {
+			utils.SendError(w, m.App.Logger, err)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
 // func (m *Repository) RequiredId() func(http.Handler) http.Handler {
 func (m *Repository) RequiredId(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

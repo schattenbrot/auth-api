@@ -1,6 +1,6 @@
 # Basic Auth
 
-This API provides authorization and basic user management functionality using the Gin Framework for Go.
+This API provides authorization and basic user management functionality using the Chi-Router for Go.
 
 ## Usage
 
@@ -39,16 +39,15 @@ When developing locally make sure that the mongo database is running and use (se
 | GET     | `/users`                       | Gets user list          | auth/admin required | done          |
 | GET     | `/users/me`                    | Gets current user       | auth required       | done          |
 | DELETE  | `/users/me`                    | Deletes user            | auth required       | done          |
-| GET     | `/users/me/avatar`             | Gets user avatar        | auth required       | -             |
 | PATCH   | `/users/me/username`           | Updates user username   | auth required       | done          |
 | PATCH   | `/users/me/email`              | Updates user email      | auth required       | done          |
 | PATCH   | `/users/me/password`           | Updates user password   | auth required       | done          |
-| PATCH   | `/users/me/avatar`             | Updates user avatar     | auth required       | -             |
+| PATCH   | `/users/me/avatar`             | Updates user avatar     | auth required       | done          |
 | GET     | `/users/{id}`                  | Gets a user by ID       | auth required       | done          |
 | PUT     | `/users/{id}`                  | Updates user            | auth/admin required | done          |
 | DELETE  | `/users/{id}`                  | Deletes user            | auth/admin required | done          |
-| GET     | `/users/{id}/avatar`           | Gets the user's avatar  | auth required       | -             |
 | GET     | `/users/{id}/reactivate`       | Reactivate user         | auth/auth required  | done          |
+| GET     | `/users/avatar/{filename}`     | Gets the user's avatar  | auth required       | -             |
 
 The Baserouting for `/users` can get changed using the `baseRouting` flag in the settings. If `auth` is chosen for the baseRouting then `/users` turns into `/users/list`.
 

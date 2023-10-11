@@ -11,10 +11,11 @@ import (
 )
 
 type Config struct {
-	Port  int
-	Env   string
-	Cors  []string
-	Roles struct {
+	Servername string
+	Port       int
+	Env        string
+	Cors       []string
+	Roles      struct {
 		Default    string
 		Additional []string
 	}
@@ -46,6 +47,7 @@ func Init() AppConfig {
 
 	flag.StringVar(&app.Config.Env, "env", "dev", "the app environment")
 
+	flag.StringVar(&app.Config.Servername, "apiservername", "http://localhost", "the api server name")
 	flag.IntVar(&app.Config.Port, "port", 8080, "the port")
 
 	flag.StringVar(&app.Config.DB.DSN, "dsn", "mongodb://localhost:27017", "the db dsn")

@@ -14,6 +14,7 @@ func userRoutes(router chi.Router) {
 		router.With(middlewares.Repo.ValidateUpdateMeUsername).Patch("/username", controllers.Repo.UpdateMeUsername)
 		router.With(middlewares.Repo.ValidateUpdateMeEmail).Patch("/email", controllers.Repo.UpdateMeEmail)
 		router.With(middlewares.Repo.ValidateUpdateMePassword).Patch("/password", controllers.Repo.UpdateMePassword)
+		router.With(middlewares.Repo.ValidateUpdateMeAvatar).Patch("/avatar", controllers.Repo.UpdateMeAvatar)
 	})
 
 	router.With(middlewares.Repo.IsAuth, middlewares.Repo.RequiredId).Route("/{id}", func(router chi.Router) {
