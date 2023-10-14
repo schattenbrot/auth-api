@@ -14,4 +14,5 @@ func authRoutes(router chi.Router) {
 	router.Get("/activate-email", controllers.Repo.ActivateEmail)
 	router.With(middlewares.Repo.ValidateResetPasswordRequest).Post("/reset-password/request", controllers.Repo.ResetPasswordRequest)
 	router.Post("/reset-password", controllers.Repo.ResetPasswordByToken)
+	router.With(middlewares.Repo.IsAuth, middlewares.Repo.IsAdmin, middlewares.Repo.ValidateResetPasswordRequest).Post("/reset-password/revoke", controllers.Repo.ResetPasswordRevoke)
 }
