@@ -28,7 +28,9 @@ func (m *Repository) ActivateEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.EmailActivated = true
-	user.EmailActivateToken = ""
+
+	activationToken := ""
+	user.EmailActivateToken = &activationToken
 	user.EmailActivateExpires = time.Now()
 
 	_, err = m.DB.UpdateUserById(user.ID.Hex(), user)
@@ -53,10 +55,10 @@ func (m *Repository) ActivateEmail(w http.ResponseWriter, r *http.Request) {
 	}
 
 	type resp struct {
-		message string
+		Message string `json:"message"`
 	}
 
 	utils.Send(w, m.App.Logger, http.StatusOK, &resp{
-		message: "Your email address was successfully activated!",
+		Message: "Your email address was successfully activated!",
 	})
 }

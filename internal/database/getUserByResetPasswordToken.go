@@ -7,13 +7,13 @@ import (
 	"github.com/schattenbrot/auth/internal/models"
 )
 
-func (m *dbRepo) GetUserByActivationToken(token string) (*models.User, error) {
+func (m *dbRepo) GetUserByResetPasswordToken(token string) (*models.User, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	collection := m.DB.Collection("users")
 
-	filter := models.User{EmailActivateToken: &token}
+	filter := models.User{ResetPasswordToken: &token}
 
 	var user models.User
 	err := collection.FindOne(ctx, filter).Decode(&user)

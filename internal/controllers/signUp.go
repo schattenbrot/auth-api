@@ -35,13 +35,16 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	activationToken := fmt.Sprintf("%x", activationTokenBuffer)
+	activationTokenExpires := currentTime.Add(24 * time.Hour)
+
 	user := &models.User{
 		Email:                authUser.Email,
 		Password:             string(hashedPassword),
 		Roles:                []string{m.App.Config.Roles.Default},
 		Inactive:             utils.BoolPointer(false),
-		EmailActivateToken:   fmt.Sprintf("%x", activationTokenBuffer),
-		EmailActivateExpires: currentTime.Add(24 * time.Hour),
+		EmailActivateToken:   &activationToken,
+		EmailActivateExpires: activationTokenExpires,
 		CreatedAt:            currentTime,
 		UpdatedAt:            currentTime,
 	}
@@ -54,12 +57,11 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 	user.ID = userID
 	user.Password = ""
 
-	m.App.Logger.Println(user.Email)
 	mail := &models.Mail{
 		From:    m.App.Config.EmailProvider.Email,
 		To:      []string{user.Email},
-		Subject: "Schattenbrot: Activate Email",
-		Body:    "Please activate your email using the following link: http://localhost:8080/auth/activate-email?token=" + user.EmailActivateToken,
+		Subject: "Activate your email",
+		Body:    "Please activate your email using the following link: http://localhost:8080/auth/activate-email?token=" + *user.EmailActivateToken,
 	}
 	err = mail.Send(m.App.Config.EmailProvider.Email, m.App.Config.EmailProvider.Password)
 	if err != nil {

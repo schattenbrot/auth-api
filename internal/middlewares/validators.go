@@ -124,3 +124,33 @@ func (m *Repository) ValidateUpdateUser(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+func (m *Repository) ValidateResetPasswordRequest(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var user models.ResetPasswordRequestUser
+		utils.MiddlewareBodyDecoder(r, &user)
+
+		err := m.App.Validator.Struct(user)
+		if err != nil {
+			utils.SendError(w, m.App.Logger, err)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}
+
+func (m *Repository) ValidateResetPasswordByToken(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var user models.ResetPasswordByTokenUser
+		utils.MiddlewareBodyDecoder(r, &user)
+
+		err := m.App.Validator.Struct(user)
+		if err != nil {
+			utils.SendError(w, m.App.Logger, err)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+	})
+}

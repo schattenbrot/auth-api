@@ -15,6 +15,9 @@ When developing locally make sure that the mongo database is running and use (se
 - Email
 - Password (hashed)
 - ~~GoogleAccessToken~~
+- EmailActivated
+- EmailActivateToken
+- EmailActivateExpires
 - Avatar (link)
 - Roles
 - Inactive
@@ -33,9 +36,9 @@ When developing locally make sure that the mongo database is running and use (se
 | POST    | `/auth/sign-in`                | User login              | -                   | done          |
 | GET     | `/auth/sign-out`               | User logout             | -                   | done          |
 | POST    | `/auth/activate-email`         | Activate user email     | -                   | done          |
-| POST    | `/auth/reset-password`         | Resets password         | -                   | -             |
+| POST    | `/auth/reset-password`         | Resets password         | -                   | done          |
 | POST    | `/auth/reset-password/revoke`  | Revoke password request | auth/admin required | -             |
-| POST    | `/auth/reset-password/{token}` | Resets password request | -                   | -             |
+| POST    | `/auth/reset-password/request` | Resets password request | -                   | done          |
 | GET     | `/users`                       | Gets user list          | auth/admin required | done          |
 | GET     | `/users/me`                    | Gets current user       | auth required       | done          |
 | DELETE  | `/users/me`                    | Deletes user            | auth required       | done          |
@@ -71,9 +74,9 @@ The Baserouting for `/users` can get changed using the `baseRouting` flag in the
 
 ## Password reset
 
-1. Request the password reset (`/users/reset-password`)
+1. Request the password reset (`/auth/reset-password/request`)
 2. Get email (and token to reset, resetduration in db)
-3. Use token to reset password (`/users/reset-password/request`)
+3. Use token to reset password (`/auth/reset-password?token=TOKEN`)
 4. Can get revoked by admins (`/auth/reset-password/revoke`)
 
 ## Contributing

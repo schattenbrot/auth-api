@@ -20,6 +20,7 @@ type DatabaseRepo interface {
 	GetInactiveUserById(id string) (*models.User, error)
 	GetUserByEmail(email string) (*models.User, error)
 	GetUserByActivationToken(token string) (*models.User, error)
+	GetUserByResetPasswordToken(token string) (*models.User, error)
 	UpdateUserById(id string, user *models.User) (*models.User, error)
 	DeleteUserById(id string) (*models.User, error)
 }
