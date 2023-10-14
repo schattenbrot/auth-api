@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"crypto/rand"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -26,13 +28,22 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 
 	currentTime := time.Now().UTC()
 
+	activationTokenBuffer := make([]byte, 128)
+	_, err = rand.Read(activationTokenBuffer)
+	if err != nil {
+		utils.SendError(w, m.App.Logger, err, http.StatusInternalServerError)
+		return
+	}
+
 	user := &models.User{
-		Email:     authUser.Email,
-		Password:  string(hashedPassword),
-		Roles:     []string{m.App.Config.Roles.Default},
-		Inactive:  utils.BoolPointer(false),
-		CreatedAt: currentTime,
-		UpdatedAt: currentTime,
+		Email:                authUser.Email,
+		Password:             string(hashedPassword),
+		Roles:                []string{m.App.Config.Roles.Default},
+		Inactive:             utils.BoolPointer(false),
+		EmailActivateToken:   fmt.Sprintf("%x", activationTokenBuffer),
+		EmailActivateExpires: currentTime.Add(24 * time.Hour),
+		CreatedAt:            currentTime,
+		UpdatedAt:            currentTime,
 	}
 
 	userID, err := m.DB.CreateUser(*user)
@@ -42,6 +53,19 @@ func (m *Repository) SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 	user.ID = userID
 	user.Password = ""
+
+	m.App.Logger.Println(user.Email)
+	mail := &models.Mail{
+		From:    m.App.Config.EmailProvider.Email,
+		To:      []string{user.Email},
+		Subject: "Schattenbrot: Activate Email",
+		Body:    "Please activate your email using the following link: http://localhost:8080/auth/activate-email?token=" + user.EmailActivateToken,
+	}
+	err = mail.Send(m.App.Config.EmailProvider.Email, m.App.Config.EmailProvider.Password)
+	if err != nil {
+		utils.SendError(w, m.App.Logger, err)
+		return
+	}
 
 	cookie, err := utils.CreateCookie(currentTime, userID.Hex(), m.App.Config.JWT, m.App.Config.Cookie.Name, m.App.Config.Cookie.SameSite)
 	if err != nil {

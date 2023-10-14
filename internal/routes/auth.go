@@ -11,4 +11,5 @@ func authRoutes(router chi.Router) {
 	router.With(middlewares.Repo.ValidateAuthUser, middlewares.Repo.EmailExists).Post("/sign-up", controllers.Repo.SignUp)
 	router.Post("/sign-in", controllers.Repo.SignIn)
 	router.Get("/sign-out", controllers.Repo.SignOut)
+	router.Get("/activate-email", controllers.Repo.ActivateEmail)
 }

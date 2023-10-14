@@ -19,6 +19,10 @@ type Config struct {
 		Default    string
 		Additional []string
 	}
+	EmailProvider struct {
+		Email    string
+		Password string
+	}
 	BaseRouting string
 	DB          struct {
 		DSN  string
@@ -62,6 +66,9 @@ func Init() AppConfig {
 	flag.StringVar(&app.Config.Roles.Default, "defaultRole", "guest", "the default role when creating a new user")
 	var addRoles string
 	flag.StringVar(&addRoles, "addRoles", "guest", "additional roles (admin always exists)")
+
+	flag.StringVar(&app.Config.EmailProvider.Email, "emailFrom", "", "the email address for sending email notifications")
+	flag.StringVar(&app.Config.EmailProvider.Password, "emailPassword", "", "the email password for sending email notifications")
 
 	flag.StringVar(&app.Config.BaseRouting, "baseRouting", "users", "the base routing for the users endpoints")
 

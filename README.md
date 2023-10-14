@@ -23,7 +23,7 @@ When developing locally make sure that the mongo database is running and use (se
 - CreatedAt
 - UpdatedAt
 
-## Calls
+## Endpoints
 
 | Request | Path                           | Description             | Required Auth       | Done          |
 | ------- | ------------------------------ | ----------------------- | ------------------- | ------------- |
@@ -32,7 +32,7 @@ When developing locally make sure that the mongo database is running and use (se
 | POST    | `/auth/sign-up`                | User register           | -                   | email missing |
 | POST    | `/auth/sign-in`                | User login              | -                   | done          |
 | GET     | `/auth/sign-out`               | User logout             | -                   | done          |
-| POST    | `/auth/activate-email`         | Activate user email     | -                   | -             |
+| POST    | `/auth/activate-email`         | Activate user email     | -                   | done          |
 | POST    | `/auth/reset-password`         | Resets password         | -                   | -             |
 | POST    | `/auth/reset-password/revoke`  | Revoke password request | auth/admin required | -             |
 | POST    | `/auth/reset-password/{token}` | Resets password request | -                   | -             |
@@ -85,6 +85,7 @@ There might be routings and settings that I have missed.
 
 - SignUp (send verification email)
 - Email stuff ...
+  - Better templates
 - Logging to file and/or console (based on env)
 - Swagger documentation
 - Tests

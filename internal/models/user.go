@@ -11,6 +11,8 @@ type User struct {
 	Username             string              `json:"username,omitempty" bson:"username,omitempty"`
 	Email                string              `json:"email,omitempty" bson:"email,omitempty"`
 	EmailActivated       bool                `json:"-" bson:"emailActivated,omitempty"`
+	EmailActivateToken   string              `json:"-" bson:"emailActivateToken,omitempty"`
+	EmailActivateExpires time.Time           `json:"-" bson:"emailActivateExpires,omitempty"`
 	Password             string              `json:"-" bson:"password,omitempty"`
 	Avatar               string              `json:"avatar,omitempty" bson:"avatar,omitempty"`
 	Roles                []string            `json:"roles,omitempty" bson:"roles,omitempty"`

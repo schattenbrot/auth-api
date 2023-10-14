@@ -22,6 +22,8 @@ func (m *dbRepo) UpdateUserById(id string, user *models.User) (*models.User, err
 	}
 	filter := models.User{ID: &userId}
 
+	user.UpdatedAt = time.Now()
+
 	var updatedUser models.User
 	update := bson.M{"$set": user}
 	err = collection.FindOneAndUpdate(ctx, filter, update, options.FindOneAndUpdate().SetReturnDocument(options.After)).Decode(&updatedUser)
